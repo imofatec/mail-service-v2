@@ -11,14 +11,14 @@ import org.thymeleaf.context.Context;
 
 @Slf4j
 @Service
-public class SendConfirmEmailServiceImpl implements SendConfirmEmailService {
+public class JavaMailSenderConfirmEmailServiceImpl implements SendConfirmEmailService {
   private final EmailEnvs envs;
 
   private final JavaMailSender mailSender;
 
   private final TemplateEngine templateEngine;
 
-  public SendConfirmEmailServiceImpl(
+  public JavaMailSenderConfirmEmailServiceImpl(
       EmailEnvs envs,
       JavaMailSender mailSender,
       TemplateEngine templateEngine
