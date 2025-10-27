@@ -1,6 +1,5 @@
 package com.imo.mailservicev2.modules.confirm_email;
 
-import com.imo.mailservicev2.dtos.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -26,7 +25,7 @@ public class ConfirmEmailListener {
       String payload
   ) {
     log.info(payload);
-    UserDTO userDTO = UserDTO.fromJSONString(payload);
-    this.sendConfirmEmailService.execute(userDTO);
+    ConfirmEmailDTO confirmEmailDTO = ConfirmEmailDTO.fromJSONString(payload);
+    this.sendConfirmEmailService.execute(confirmEmailDTO);
   }
 }

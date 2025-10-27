@@ -1,4 +1,4 @@
-package com.imo.mailservicev2.modules.confirm_email;
+package com.imo.mailservicev2.modules.forget_password;
 
 import com.imo.mailservicev2.config.EmailEnvs;
 import jakarta.mail.internet.MimeMessage;
@@ -11,14 +11,14 @@ import org.thymeleaf.context.Context;
 
 @Slf4j
 @Service
-public class SendConfirmEmailServiceImpl implements SendConfirmEmailService {
+public class JavaMailSenderForgetPasswordEmailService implements SendForgetPasswordEmailService {
   private final EmailEnvs envs;
 
   private final JavaMailSender mailSender;
 
   private final TemplateEngine templateEngine;
 
-  public SendConfirmEmailServiceImpl(
+  public JavaMailSenderForgetPasswordEmailService(
       EmailEnvs envs,
       JavaMailSender mailSender,
       TemplateEngine templateEngine
@@ -29,31 +29,30 @@ public class SendConfirmEmailServiceImpl implements SendConfirmEmailService {
   }
 
   @Override
-  public void execute(ConfirmEmailDTO confirmEmailDTO) {
+  public void execute(ForgetPasswordDTO dto) {
     MimeMessage message = mailSender.createMimeMessage();
     try {
       MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
       helper.setFrom(envs.USERNAME);
-      helper.setTo(confirmEmailDTO.email());
+      helper.setTo(dto.email());
+      helper.setSubject("IMO - Recuperar senha");
 
-      helper.setSubject("IMO - Confirme sua conta");
-
-      String htmlContent = this.getTemplate(confirmEmailDTO);
+      String htmlContent = this.getTemplate(dto);
 
       helper.setText(htmlContent, true);
       this.mailSender.send(message);
+      log.info("email sent");
     } catch (Exception e) {
       log.error(e.getMessage());
     }
   }
 
-  private String getTemplate(ConfirmEmailDTO user) {
+  private String getTemplate(ForgetPasswordDTO dto) {
     Context context = new Context();
 
-    context.setVariable("name", user.name());
-    context.setVariable("confirmationURL", this.envs.CONFIRM_URL);
+    context.setVariable("code", dto.code());
 
-    return this.templateEngine.process("confirmation_email", context);
+    return this.templateEngine.process("forget_password", context);
   }
 }
