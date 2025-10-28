@@ -24,7 +24,6 @@ public class ConfirmEmailListener {
       @Payload
       String payload
   ) {
-    log.info(payload);
     ConfirmEmailDTO confirmEmailDTO = ConfirmEmailDTO.fromJSONString(payload);
     this.sendConfirmEmailService.execute(confirmEmailDTO);
   }

@@ -42,7 +42,6 @@ public class JavaMailSenderForgetPasswordEmailService implements SendForgetPassw
 
       helper.setText(htmlContent, true);
       this.mailSender.send(message);
-      log.info("email sent");
     } catch (Exception e) {
       log.error(e.getMessage());
     }
