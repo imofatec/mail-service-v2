@@ -38,7 +38,7 @@ public class ForgetPasswordListener {
       return;
     }
 
-    //    this.sendForgetPasswordEmailService.execute(forgetPasswordDTO);
+    this.sendForgetPasswordEmailService.execute(forgetPasswordDTO);
 
     this.outboxRepository.updateStatusById(foundOutbox.id, OutboxStatus.SENT);
   }
