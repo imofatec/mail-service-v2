@@ -1,17 +1,20 @@
 # IMO - Mail Sender v2
-Este projeto é uma refatoração da [primeira versão](https://github.com/imofatec/mensageria) implementada para consumir eventos de forma assíncrona com nossa [api principal](https://github.com/imofatec/imo/tree/develop/backend)
+
+Este projeto é uma refatoração da [primeira versão](https://github.com/imofatec/mensageria) implementada para consumir
+eventos de forma assíncrona com nossa [api principal](https://github.com/imofatec/imo/tree/develop/backend)
 
 ## Objetivo
-Esse microsserviço foi criado pois nos da maior controle dos eventos relacionado a envio de email, a comunicação assíncrona permite que não interrompamos todo fluxo da api principal para esse tipo de evento
+
+Esse microsserviço foi criado pois nos da maior controle dos eventos relacionado a envio de email, a comunicação
+assíncrona permite que não interrompamos todo fluxo da api principal para esse tipo de evento
 
 ## Queue Based
-Usando RabbitMQ, cada disparo de evento é publicado por outras fontes e nosso serviço consome as mensagens sequencialmente e de forma assíncrona para continuar o fluxo
 
-## Padrão Outbox
-Na feature de recuperar senha foi utilizado o padrão outbox para salvar o estado atual o evento no banco de dados. Esse padrão foi escolhido pois garante resiliência do evento e controle de fazer uma busca, essa busca está sendo feita na hora de atualizar a senha do usuário. Se o evento ja foi registrado na outbox o acesso é liberado, se não, é porque a mensagem ainda não foi consumida ou o email de recuperação não foi enviado.
-![outbox pattern](./assets/outbox.png)
+Usando RabbitMQ, cada disparo de evento é publicado por outras fontes e nosso serviço consome as mensagens
+sequencialmente e de forma assíncrona para continuar o fluxo
 
 ## Tecnologias utilizadas
+
 - **Linguagem**
     - [Java 21](https://www.java.com/pt-BR/)
 - **Inicar aplicação Spring**
@@ -26,15 +29,20 @@ Na feature de recuperar senha foi utilizado o padrão outbox para salvar o estad
     - [Spring Data MongoDB](https://spring.io/projects/spring-data-mongodb)
 
 ## Requisitos
+
 > Rodar o projeto na sua máquina
+
 - Java 21
 - MongoDB
 
 ## Setup
+
 Rodar o projeto na sua máquina
 
 ### Profile
+
 > Ative o perfil de desenvolvimento `src/main/resources/application.properties`
+
 ```
 spring.profiles.default=prod
 spring.profiles.active=dev
@@ -42,7 +50,9 @@ spring.profiles.active=dev
 ```
 
 ### Envs
+
 > Crie o arquivo `.env-dev.properties` `src/main/resources` e adicione as envs
+
 ```
 # database
 MONGO_URI=mongodb://localhost:27017/imo
@@ -65,6 +75,7 @@ ROUTING_KEY_FORGET_PASSWORD=imo.user.forget_password
 ```
 
 ### Run
+
 ```
 ./mvnw spring-boot:run
 ```
